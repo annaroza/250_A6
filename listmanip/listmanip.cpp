@@ -111,17 +111,17 @@ Node* keep_common(Node* head1, Node* head2)
 			next_after_next = traverser1->next;
 		}
 		else{
-		//////	previous->next = next_after_next;		
-			//traverser1->next = NULL;
+			//keep traverser2 the same
+			//keep previous the same
+			//change previous->next to next_after_next
 			//remove from a
-//			if(traverser1->next!=NULL){
-//				traverser1 = traverser1->next;
-//			}
-//			
-//			previous->next = next_after_next;	
-//		}
-//		if(next_after_next->next != NULL){
-//			next_after_next = next_after_next->next;
+		
+			//traverser1->next = NULL;
+			traverser1 = traverser1->next;
+			if(traverser1->next != NULL){
+				next_after_next = traverser1->next;
+			}
+			previous->next = next_after_next;	
 		}
 	} 
 	
