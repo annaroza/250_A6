@@ -19,7 +19,7 @@ extern const string usage_msg = "List Manipulation Toy. Version 0.1\n"
                                 "Report bugs to annaroza@buffalo.edu";
 
 void newNode(Node* first, int num){		//num is the number in the vector<Token> to be added to the list
-//	Node* first = NULL;                     //first will always point to the start of the list
+						//first will always point to the start of the list
         Node* temp;                             //temp will be used to add things to the list
         temp = new Node;
         Node* traverser;                        
@@ -30,6 +30,7 @@ void newNode(Node* first, int num){		//num is the number in the vector<Token> to
 
         if(first == NULL){			//if there is not already anything in the list, then temp is the first
                 first = temp;
+		first->next = NULL;
         }
         else{
                 traverser = first;                      //if the list is not empty, traverser starts off pointing to
@@ -96,6 +97,7 @@ Node* keep_common(Node* head1, Node* head2)
 	Node* next_after_next;
 	Node* traverser2 = head2;
 	Node* previous = head1;
+	Node* temp;
 
 	if(traverser1 == NULL || traverser2 == NULL){
 		return NULL;
@@ -115,16 +117,39 @@ Node* keep_common(Node* head1, Node* head2)
 			//keep previous the same
 			//change previous->next to next_after_next
 			//remove from a
-		
-			//traverser1->next = NULL;
-			traverser1 = traverser1->next;
-			if(traverser1->next != NULL){
-				next_after_next = traverser1->next;
+			if(traverser1->key < traverser2->key){
+				temp = traverser1;
+				//traverser1->next = NULL;
+				traverser1 = traverser1->next;
+				if(traverser1->next != NULL){
+					previous->next = next_after_next;
+		        	        next_after_next = traverser1->next;
+					temp->next = NULL;
+				}
+				else{
+					previous->next = next_after_next;	
+					next_after_next->next = NULL;
+				}
+				delete temp;
 			}
-			previous->next = next_after_next;	
+			else if(traverser1->key > traverser2->key){
+				if(traverser2->next != NULL){
+					traverser2 = traverser2->next;
+				}
+				else{						//ex. get here comparing a = 1 2 4 6 8 9 and b = 1 2 4 5 6 7
+					previous->next = NULL;			//when traverser1 = 8 and traverser2 = 7
+					//temp = traverser1;			//delete everything from then on in list a
+					while(traverser1->next != NULL){
+						temp = traverser1;
+						traverser1 = traverser1->next;
+						temp->next = NULL;
+						delete temp;
+					}
+					break;
+				}
+			}
 		}
 	} 
-	
 	return head1;
 
 	// YOUR CODE GOES HERE
